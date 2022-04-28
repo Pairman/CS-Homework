@@ -122,6 +122,7 @@ int *add(int *numA,int *numB){
     return ret;
 }
 
+// Subtract the second number from the first number.
 int *sub(int *numa,int *numb){
     // Create an array for the result and determine its sign.
     int *ret=(int*)calloc(512,sizeof(int));
@@ -175,6 +176,7 @@ int *sub(int *numa,int *numb){
     return ret;
 }
 
+// Print a big number.
 void printn(int *num){
     // Print the sign.
     if(num[0]<0){
@@ -187,6 +189,7 @@ void printn(int *num){
     }
 }
 
+// Main function with command-line interfaces.
 int main(int argc,char *argv[]){
     // printf("cmp -h: %d\n",strcmp(argv[1],cmdh));
     // printf("cmp -c: %d\n",strcmp(argv[1],cmdc));
