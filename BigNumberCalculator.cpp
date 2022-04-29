@@ -131,6 +131,7 @@ int *sub(int *numa,int *numb){
     int cmp=CompareAbs(numa,numb),*numA=nullptr,*numB=nullptr;
     if(cmp==0){
         ret[0]=1;
+        ret[1]=1;
         return ret;
     }
     else if(cmp<0){
@@ -169,9 +170,6 @@ int *sub(int *numa,int *numb){
     while(ret[512-ret[1]]==0){
         --ret[1];
     }
-    if(ret[1]==0){
-        ret[1]=1;
-    }
 
     return ret;
 }
@@ -196,7 +194,7 @@ int main(int argc,char *argv[]){
 
     // Check the command.
     if(argc==1||strcmp(argv[1],"-h")==0){
-        printf("BigCal - Addition or substraction calculator for big numbers!\nUsage: bigcal -h                               show help\n   or: bigcal -c [operator] [number] [number]  add or substract two numbers for the given operator\n");
+        printf("BigCal 1.0.1 (2022/Apr/29) - Addition or substraction calculator for big numbers!\nUsage: bigcal -h                               show help\n       bigcal -c [number] [operator] [number]  add or substract two numbers for the given operator\n");
         return 0;
     }
     if(argc>5){
@@ -204,22 +202,19 @@ int main(int argc,char *argv[]){
         return -1;
     }
     if(strcmp(argv[1],"-c")!=0){
-        printf("Wrong command! Please check \"bigcal -h\" for usage!\n");
+        printf("Unknown command! Please check \"bigcal -h\" for usage!\n");
         return -1;
     }
-    if(argc==2){
+    if(argc!=5){
         printf("Not enough parameters! Please check \"bigcal -h\" for usage!\n");
         return -1;
     }
 
     // Store the arguments in the expression.
     char op=0,strA[508]={0},strB[508]={0};
-    op=argv[2][0];
-    strcpy(strA,argv[3]);
+    op=argv[3][0];
+    strcpy(strA,argv[2]);
     strcpy(strB,argv[4]);
-    printf("op  : %c\n",op);
-    printf("strA: %s\n",strA);
-    printf("strB: %s\n",strB);
 
     // Check the expression.
     int chkOp=CheckOp(op),chkStrA=CheckNum(strA),chkStrB=CheckNum(strB);
