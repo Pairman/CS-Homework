@@ -124,11 +124,11 @@ int show(){
 
     // Print the list from the end to the head.
     node *temp=end->last;
-    printf("size                    %11d\n",size);
-    printf("index          data        position\n");
+    printf("  size                    %11d\n",size);
+    printf("  index          data        position\n");
     int i=0;
     while(temp!=NULL&&temp!=head&&temp!=end){
-        printf("%5d   %11d   0x%011X\n",i,temp->data,temp);
+        printf("  %5d   %11d   0x%011X\n",i,temp->data,temp);
         temp=temp->last;
         ++i;
     }
@@ -156,7 +156,7 @@ int release(){
 int main(int argc,char *argv[]){
     // Check the command.
     if(argc==1||strcmp(argv[1],"-h")==0){
-        printf("SimStack 1.0.0 (2022/May/12) - The Stack Simulator!\nUsage: simstack -h       show help\n       simstack -i       enter input mode\n");
+        printf("SimStack 1.0.1 (2022/May/12) - The Stack Simulator!\nUsage: simstack -h       show help\n       simstack -i       enter input mode\n");
         release();
         return 0;
     }
@@ -168,14 +168,14 @@ int main(int argc,char *argv[]){
 
     // Define cli messages.
     char credit[66]="SimStack 1.0.0 (2022/May/12) - The Stack Simulator! [Input Mode]\n";
-    char help[235]="Usage:  help        show help\n        push [number...]  push given number(s) to the stack\n        pop  [time]       pop from the stack for given times\n        list              list the stack\n        exit              exit input mode\n";
-    char in[12]="simstack>> ";
+    char help[243]="Usage:  help        show help\n          push [number...]  push given number(s) to the stack\n          pop  [time]       pop from the stack for given times\n          list              list the stack\n          exit              exit input mode\n";
+    char in[12]="simstack> ";
 
     // Initialize the link.
     initialize();
 
     // Print the credit.
-    printf("%s",credit);
+    printf("  %s",credit);
 
     // Do the work.
     while(validate()==0){
@@ -184,8 +184,9 @@ int main(int argc,char *argv[]){
 
         // Get the input.
         char raw[512]={0},*cmd;
-        gets_s(raw,512);
-        
+        fgets(raw,512,stdin);
+        raw[strlen(raw)-1]=0;
+
         // Split the input.
         cmd=strtok(raw," ");
 
@@ -196,7 +197,7 @@ int main(int argc,char *argv[]){
 
         // Identify the command.
         if(strcmp(cmd,"help")==0){
-            printf("%s",help);
+            printf("  %s",help);
         }
         else if(strcmp(cmd,"push")==0){
             while(true){
@@ -234,12 +235,12 @@ int main(int argc,char *argv[]){
             return 0;
         }
         else{
-            printf("Unknown command! Please check \"help\" for usage!\n");
+            printf("  Unknown command! Please check \"help\" for usage!\n");
         }
     }
 
     // Error if list not valid.
-    printf("Fatal error! Please check \"help\" for usage!\n");
+    printf("  Fatal error! Please check \"help\" for usage!\n");
     release();
     return -1;
 }
