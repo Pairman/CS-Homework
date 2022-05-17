@@ -16,9 +16,9 @@ Contact contacts[256];
 // Show one contact by given index;
 int show(unsigned char index){
     // Contact validation.
-    if(strcmp(contacts[index].name,"")==0||strcmp(contacts[index].phone,"")==0){
-        return -1;
-    }
+    // if(strcmp(contacts[index].name,"")==0||strcmp(contacts[index].phone,"")==0){
+    //     return -1;
+    // }
 
     // Show the given contact.
     printf("  %5d  %24s  %24s  %24s  %24s  %24s\n",index,contacts[index].name,contacts[index].phone,contacts[index].email,contacts[index].address,contacts[index].work);
@@ -51,13 +51,15 @@ int add(){
     // Input and check the name and phone number.
     Contact contactToAdd;
     printf("  Please input the name: ");
-    std::cin>>contactToAdd.name;
+    fgets(contactToAdd.name,23,stdin);
+    contactToAdd.name[strlen(contactToAdd.name)-1]=0;
     if(strcmp(contactToAdd.name,"")==0){
         printf("  Invalid name!\n");
         return -1;
     }
     printf("  Please input the phone number: ");
-    std::cin>>contactToAdd.phone;
+    fgets(contactToAdd.phone,23,stdin);
+    contactToAdd.phone[strlen(contactToAdd.phone)-1]=0;
     if(strcmp(contactToAdd.name,"")==0){
         printf("  Invalid phone number!\n");
         return -1;
@@ -73,11 +75,14 @@ int add(){
 
     // Input other information.
     printf("  (Optional) Please input the email: ");
-    std::cin>>contactToAdd.email;
+    fgets(contactToAdd.email,23,stdin);
+    contactToAdd.email[strlen(contactToAdd.email)-1]=0;
     printf("  (Optional) Please input the address: ");
-    std::cin>>contactToAdd.address;
+    fgets(contactToAdd.address,23,stdin);
+    contactToAdd.address[strlen(contactToAdd.address)-1]=0;
     printf("  (Optional) Please input the work: ");
-    std::cin>>contactToAdd.work;
+    fgets(contactToAdd.work,23,stdin);
+    contactToAdd.work[strlen(contactToAdd.work)-1]=0;
 
     contacts[countContacts]=contactToAdd;
 
@@ -102,7 +107,8 @@ int search(){
     switch(select){
         case 0:
             printf("  Please input the name: ");
-            std::cin>>search;
+            fgets(search,23,stdin);
+            search[strlen(search)-1]=0;
             for(int index=0;index<countContacts;++index){
                 if(strcmp(contacts[index].name,search)==0){
                     equalResults[index]=1;
@@ -112,7 +118,8 @@ int search(){
             break;
         case 1:
             printf("  Please input the phone: ");
-            std::cin>>search;
+            fgets(search,23,stdin);
+            search[strlen(search)-1]=0;
             for(int index=0;index<countContacts;++index){
                 if(strcmp(contacts[index].phone,search)==0){
                     equalResults[index]=1;
@@ -186,12 +193,12 @@ int modify(){
     printf("  \033[47;30mModify a contact in the contacts by index.\033[0m\n");
 
     // Get and check the index.
-    printf("  Please input index for the contact to remove: ");
+    printf("  Please input index for the contact to modify: ");
     char input[24]={0},select[24]={0};
     std::cin>>input;
     int index=atoi(input);
     if(index<0||index>255){
-        printf("  Invalid index to remove!\n");
+        printf("  Invalid index to modify!\n");
         return -1;
     }
 
@@ -201,14 +208,15 @@ int modify(){
     std::cin>>select;
     if(strcmp(select,"1")==0){
         printf("  Please input the new name: ");
-        std::cin>>contactInput.name;
+        fgets(contactInput.name,23,stdin);
+        contactInput.name[strlen(contactInput.name)-1]=0;
     }
 
     printf("  Modify the phone number? \"1\"/other for yes/no: ");
     std::cin>>select;
     if(strcmp(select,"1")==0){
         printf("  Please input the new phone number: ");
-        std::cin>>contactInput.phone,23,stdin;
+        std::cin>>contactInput.phone;
     }
 
     printf("  Modify the email? \"1\"/other for yes/no: ");
@@ -222,7 +230,8 @@ int modify(){
     std::cin>>select;
     if(strcmp(select,"1")==0){
         printf("  Please input the new address: ");
-        std::cin>>contactInput.address;
+        fgets(contactInput.address,23,stdin);
+        contactInput.address[strlen(contactInput.address)-1]=0;
     }
 
 
@@ -230,7 +239,8 @@ int modify(){
     std::cin>>select;
     if(strcmp(select,"1")==0){
         printf("  Please input the new work: ");
-        std::cin>>contactInput.work;
+        fgets(contactInput.work,23,stdin);
+        contactInput.work[strlen(contactInput.work)-1]=0;
     }
 
     contacts[index]=contactInput;
@@ -282,9 +292,12 @@ int save(){
 
     // Whether to save the file.
     int save=1;
-    printf("  Save the file? '1'/other for yes/no: ");
+    printf("  Save the file? '1'/'2'/other for yes/no/back: ");
     std::cin>>save;
-    if(save!=1){
+    if(save!=1&&save!=2){
+        return 1;
+    }
+    if(save==2){
         printf("  Terminating the program without saving.\n");
         return 0;
     }
@@ -319,37 +332,48 @@ int save(){
 
 
 int main(){
+    char input[2]={'0',0};
     int select=0;
     while(true){
-        printf("  \033[47;30mContacts 1.0.0 (2022/May/16) - A Lightweight Contacts Manager!\033[0m\n");
+        printf("  \033[47;30mContacts 1.0.1 (2022/May/16) - A Lightweight Contacts Manager!\033[0m\n");
         printf("  \"0\"  List the contacts.\n  \"1\"  Add a contact to the contacts.\n  \"2\"  Search in the contacts by name or phone number.\n  \"3\"  Remove a contact from the contacts by index.\n  \"4\"  Modify a contact in the contacts by index.\n  \"5\"  Load contacts from \".ctx\" file.\n  \"6\"  Save contacts to \".ctx\" file or exit.\n  Please select an option by entering its index: ");
-        std::cin>>select;
-        printf("select %d\n",select);
+        // Fix screen flashing caused by '\n' or other characters remained in the stdin buffer area.
+        while(input[0]=getchar()){
+            if('0'<=input[0]&&input[0]<='9'){
+                select=atoi(input);
+            }
+            else{
+                break;
+            }
+        }
         switch(select){
-            case 0:
+            case 0: // list
                 list();
                 break;
-            case 1:
+            case 1: // add
                 add();
                 break;
-            case 2:
+            case 2: // search
                 search();
                 break;
-            case 3:
+            case 3: // remove
                 remove();
                 break;
-            case 4:
+            case 4: // modify
                 modify();
                 break;
-            case 5:
+            case 5: // load
                 load();
                 break;
-            case 6:
-                save();
-                return 0;
+            case 6: // save
+                if(save()!=1){
+                    return 0;
+                }
+                break;
             default:
                 printf("  Invalid option!\n");
         }
+        select=0;
         printf("  Press enter to continue\n");
     }
 
