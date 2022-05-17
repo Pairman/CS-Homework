@@ -91,7 +91,7 @@ int add(){
 
 // Search in the contacts by name or phone number.
 int search(){
-    printf("  \033[47;30mSearch in the contacts by name or phone number.\033[0m\n");
+    printf("\033[47;30mSearch in the contacts by name or phone number.\033[0m\n");
 
     // Input and check the name and phone number, and then search.
     int select=0;
@@ -284,7 +284,7 @@ int save(){
     int save=1;
     printf("  Save the file? '1'/other for yes/no: ");
     std::cin>>save;
-    if(!save){
+    if(save!=1){
         printf("  Terminating the program without saving.\n");
         return 0;
     }
@@ -323,7 +323,7 @@ int main(){
     while(true){
         printf("  \033[47;30mContacts 1.0.0 (2022/May/16) - A Lightweight Contacts Manager!\033[0m\n");
         printf("  \"0\"  List the contacts.\n  \"1\"  Add a contact to the contacts.\n  \"2\"  Search in the contacts by name or phone number.\n  \"3\"  Remove a contact from the contacts by index.\n  \"4\"  Modify a contact in the contacts by index.\n  \"5\"  Load contacts from \".ctx\" file.\n  \"6\"  Save contacts to \".ctx\" file or exit.\n  Please select an option by entering its index: ");
-        scanf("%d%*c",&select);
+        std::cin>>select;
         printf("select %d\n",select);
         switch(select){
             case 0: // list
@@ -349,10 +349,8 @@ int main(){
                 return 0;
             default:
                 printf("  Invalid option!\n");
-                break;
         }
         printf("  Press enter to continue\n");
-        getchar();
     }
 
     return 0;
