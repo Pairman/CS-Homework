@@ -335,7 +335,7 @@ int main(){
     char input[2]={'0',0};
     int select=0;
     while(true){
-        printf("  \033[47;30mContacts 1.0.1 (2022/May/16) - A Lightweight Contacts Manager!\033[0m\n");
+        printf("  \033[47;30mContacts 1.0.1 (2022/May/17) - A Lightweight Contacts Manager!\033[0m\n");
         printf("  \"0\"  List the contacts.\n  \"1\"  Add a contact to the contacts.\n  \"2\"  Search in the contacts by name or phone number.\n  \"3\"  Remove a contact from the contacts by index.\n  \"4\"  Modify a contact in the contacts by index.\n  \"5\"  Load contacts from \".ctx\" file.\n  \"6\"  Save contacts to \".ctx\" file or exit.\n  Please select an option by entering its index: ");
         // Fix screen flashing caused by '\n' or other characters remained in the stdin buffer area.
         while(input[0]=getchar()){
