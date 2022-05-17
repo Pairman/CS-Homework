@@ -257,7 +257,7 @@ int load(){
     int fileType=0;
     char filename[64]={0};
     printf("  Please input the filename to load: ");
-    std::cin>>filename;
+    std::cin.getline(filename,63);
     FILE *file=fopen(filename,"rb");
     if(file==NULL){
         printf("No such input file or directory!\n");
@@ -291,9 +291,11 @@ int save(){
     printf("  \033[47;30mSave contacts to \".ctx\" file or exit.\033[0m\n");
 
     // Whether to save the file.
+    char input[23]={0};
     int save=1;
     printf("  Save the file? '1'/'2'/other for yes/no/back: ");
-    std::cin>>save;
+    std::cin.getline(input,23);
+    save=atoi(input);
     if(save!=1&&save!=2){
         return 1;
     }
@@ -306,7 +308,7 @@ int save(){
     unsigned int fileType=0x00435458;
     char filename[64]={0};
     printf("  Please input the filename to save: ");
-    std::cin>>filename;
+    std::cin.getline(filename,63);
     FILE *file=fopen(filename,"wb");
     if(file==NULL){
         printf("  Error creating the file!\n");
