@@ -16,9 +16,9 @@ Contact contacts[256];
 // Show one contact by given index;
 int show(unsigned char index){
     // Contact validation.
-    // if(strcmp(contacts[index].name,"")==0||strcmp(contacts[index].phone,"")==0){
-    //     return -1;
-    // }
+    if(strcmp(contacts[index].name,"")==0||strcmp(contacts[index].phone,"")==0){
+        return -1;
+    }
 
     // Show the given contact.
     printf("  %5d  %24s  %24s  %24s  %24s  %24s\n",index,contacts[index].name,contacts[index].phone,contacts[index].email,contacts[index].address,contacts[index].work);
@@ -326,25 +326,25 @@ int main(){
         std::cin>>select;
         printf("select %d\n",select);
         switch(select){
-            case 0: // list
+            case 0:
                 list();
                 break;
-            case 1: // add
+            case 1:
                 add();
                 break;
-            case 2: // search
+            case 2:
                 search();
                 break;
-            case 3: // remove
+            case 3:
                 remove();
                 break;
-            case 4: // modify
+            case 4:
                 modify();
                 break;
-            case 5: // load
+            case 5:
                 load();
                 break;
-            case 6: // save
+            case 6:
                 save();
                 return 0;
             default:
