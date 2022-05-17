@@ -31,8 +31,8 @@ int RandomFileGenerator(char OUTPUT_FILENAME[],int OUTPUT_LENGTH){
     char c=32+rand()%94,cTemp=32+rand()%94;
     int repeat=0;
     for(int i=0;i<OUTPUT_LENGTH;++i){
-        repeat=rand()%3;
-        if(!repeat){
+        repeat=rand()%4;
+        if(repeat){
             c=cTemp;
         }
         else{
