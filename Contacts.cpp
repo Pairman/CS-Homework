@@ -377,7 +377,7 @@ int main(){
         select=0;
 
         // Wait for the enter to be pressed.
-        printf("Press any key to continue.\n");
+        printf("Press enter to continue.\n");
         std::cin.getline(input,63);
     }
 
