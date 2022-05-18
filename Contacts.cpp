@@ -340,12 +340,12 @@ int save(){
 
 
 int main(){
-    char input[23]={0};
+    char input[64]={0};
     int select=0;
     while(true){
         printf("\033[47;30mContacts 1.0.3 (2022/May/18) - A Lightweight Contacts Manager!\033[0m\n");
         printf("\"0\"  List the contacts.\n  \"1\"  Add a contact to the contacts.\n  \"2\"  Search in the contacts by name or phone number.\n  \"3\"  Remove a contact from the contacts by index.\n  \"4\"  Modify a contact in the contacts by index.\n  \"5\"  Load contacts from \".ctx\" file.\n  \"6\"  Save contacts to \".ctx\" file or exit.\n  Please select an option by entering its index: ");
-        std::cin.getline(input,256);
+        std::cin.getline(input,63);
         select=atoi(input);
         switch(select){
             case 0: // list
@@ -378,7 +378,7 @@ int main(){
 
         // Wait for the enter to be pressed.
         printf("Press any key to continue.\n");
-        getchar();
+        std::cin.getline(input,63);
     }
 
     return 0;
