@@ -194,7 +194,7 @@ int main(int argc,char *argv[]){
 
     // Check the command.
     if(argc==1||strcmp(argv[1],"-h")==0){
-        printf("BigCal 1.0.1 (2022/Apr/29) - Addition or substraction calculator for big numbers!\nUsage: bigcal -h                               show help\n       bigcal -c [number] [operator] [number]  add or substract two numbers for the given operator\n");
+        printf("BigCal 1.0.2 (2022/Jun/8) - Addition or substraction calculator for big numbers!\nUsage: bigcal -h                               show help\n       bigcal -c [number] [operator] [number]  add or substract two numbers for the given operator\n");
         return 0;
     }
     if(argc>5){
