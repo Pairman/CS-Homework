@@ -57,15 +57,21 @@ int add(){
     }
     printf("(No more than 23 characters and no spaces) Please input the phone number: ");
     std::cin.getline(contactToAdd.phone,23);
-    if(strcmp(contactToAdd.name,"")==0){
+    if(strcmp(contactToAdd.phone,"")==0){
         printf("Invalid phone number!\n");
         return -1;
+    }
+    for(int i=0;i<strlen(contactToAdd.phone);++i){
+        if(contactToAdd.phone[i]<'0'||contactToAdd.phone[i]>'9'){
+            printf("Invalid phone number!\n");
+            return -1;
+        }
     }
 
     // Repetition detection.
     for(int index=0;index<countContacts;++index){
         if(strcmp(contacts[index].phone,contactToAdd.phone)==0){
-            printf("Contact already exists thus not added!\n");
+            printf("Same phone number exists thus not added!\n");
             return -1;
         }
     }
@@ -73,6 +79,37 @@ int add(){
     // Input other information.
     printf("(Optional) (No more than 23 characters and no spaces) Please input the email: ");
     std::cin.getline(contactToAdd.email,23);
+    for(int i=0;i<strlen(contactToAdd.email);++i){
+        if((contactToAdd.email[i]<'0'||contactToAdd.email[i]>'9')){
+            if((contactToAdd.email[i]<'a'||contactToAdd.email[i]>'z')&&(contactToAdd.email[i]<'A'||contactToAdd.email[i]>'Z')){
+                if(contactToAdd.email[i]!='@'&&contactToAdd.email[i]!='_'&&contactToAdd.email[i]!='-'&&contactToAdd.email[i]!='.'){
+                    printf("Invalid email!\n");
+                    return -1;
+                }
+            }
+        }
+    }
+    // Check whether contains '@'
+    int emailContainAt=0;
+    for(int i=0;i<strlen(contactToAdd.email);++i){
+        if(contactToAdd.email[i]=='@'){
+            emailContainAt=1;
+        }
+    }
+    if(strlen(contactToAdd.email)==0){
+        emailContainAt=1;
+    }
+    if(!emailContainAt){
+        printf("Invalid email!\n");
+        return -1;
+    }
+    // Repetition detection.
+    for(int index=0;index<countContacts;++index){
+        if(strcmp(contacts[index].email,contactToAdd.email)==0){
+            printf("Same email exists thus not added!\n");
+            return -1;
+        }
+    }
     printf("(Optional) (No more than 23 characters) Please input the address: ");
     std::cin.getline(contactToAdd.address,23);
     printf("(Optional) (No more than 23 characters) Please input the work: ");
@@ -96,7 +133,7 @@ int search(){
     char input[24]={0},search[24]={0};
     int select=0;
     int countResults=0,equalResults[255]={0};
-    printf("Please input \"0\"/\"1\" to search by name/phone: ");
+    printf("Please input \"0\"/\"1\"/\"2\" to search by name/phone/email: ");
     std::cin.getline(input,23);
     select=atoi(input);
     switch(select){
@@ -115,6 +152,16 @@ int search(){
             std::cin.getline(search,23);
             for(int index=0;index<countContacts;++index){
                 if(strcmp(contacts[index].phone,search)==0){
+                    equalResults[index]=1;
+                    ++countResults;
+                }
+            }
+            break;
+        case 2:
+            printf("(No more than 23 characters) Please input the phone: ");
+            std::cin.getline(search,23);
+            for(int index=0;index<countContacts;++index){
+                if(strcmp(contacts[index].email,search)==0){
                     equalResults[index]=1;
                     ++countResults;
                 }
@@ -149,10 +196,22 @@ int remove(){
     // Get and check the index.
     printf("Please input index for the contact to remove: ");
     char input[24]={0};
-    int index=atoi(input);
     std::cin.getline(input,23);
+    int index=atoi(input);
     if(index<0||index>=countContacts){
         printf("Invalid index to remove!\n");
+        return -1;
+    }
+
+    printf("Are you sure to remove this contact?\n");
+    printf("%s  %24s  %24s  %24s  %24s  %24s\n","Index","Name","Phone","Email","Address","Work");
+    show(index);
+    printf("Input the index again to confirm: ");
+    char confirmInput[24]={0};
+    std::cin.getline(confirmInput,23);
+    int confirmIndex=atoi(confirmInput);
+    if(confirmIndex!=index){
+        printf("Abort contact removal.\n");
         return -1;
     }
 
@@ -174,9 +233,7 @@ int remove(){
     if(countContacts!=0){
         --countContacts;
     }
-    if(countContacts<0){
-        countContacts=0;
-    }
+
     printf("Contact removed successfully.\n");
     return 0;
 }
@@ -193,6 +250,7 @@ int modify(){
     int select=0;
     std::cin.getline(input,23);
     int index=atoi(input);
+    if(input[0]<'0'||input[0]>'9')
     if(index<0||index>=countContacts){
         printf("Invalid index to modify!\n");
         return -1;
@@ -206,6 +264,7 @@ int modify(){
     if(select==1){
         printf("(No more than 23 characters) Please input the new name: ");
         std::cin.getline(contactInput.name,23);
+
     }
 
     printf("Modify the phone number? \"1\"/other for yes/no: ");
@@ -215,6 +274,23 @@ int modify(){
         printf("(No more than 23 characters and no spaces) Please input the new phone number: ");
         std::cin.getline(contactInput.phone,23);
     }
+    if(strcmp(contactInput.phone,"")==0){
+        printf("Invalid phone number!\n");
+        return -1;
+    }
+    for(int i=0;i<strlen(contactInput.phone);++i){
+        if(contactInput.phone[i]<'0'||contactInput.phone[i]>'9'){
+            printf("Invalid phone number!\n");
+            return -1;
+        }
+    }
+    // Repetition detection.
+    for(int i=0;i<countContacts;++i){
+        if(i!=index&&strcmp(contacts[i].phone,contactInput.phone)==0){
+            printf("Same phone number exists thus not modified!\n");
+            return -1;
+        }
+    }
 
     printf("Modify the email? \"1\"/other for yes/no: ");
     std::cin.getline(input,23);
@@ -223,6 +299,38 @@ int modify(){
         printf("(No more than 23 characters and no spaces) Please input the new email: ");
         std::cin.getline(contactInput.email,23);
     }
+    for(int i=0;i<strlen(contactInput.email);++i){
+        if((contactInput.email[i]<'0'||contactInput.email[i]>'9')){
+            if((contactInput.email[i]<'a'||contactInput.email[i]>'z')&&(contactInput.email[i]<'A'||contactInput.email[i]>'Z')){
+                if(contactInput.email[i]!='@'&&contactInput.email[i]!='_'&&contactInput.email[i]!='-'&&contactInput.email[i]!='.'){
+                    printf("Invalid email!\n");
+                    return -1;
+                }
+            }
+        }
+    }
+    // Check whether contains '@'
+    int emailContainAt=0;
+    for(int i=0;i<strlen(contactInput.email);++i){
+        if(contactInput.email[i]=='@'){
+            emailContainAt=1;
+        }
+    }
+    if(strlen(contactInput.email)==0){
+        emailContainAt=1;
+    }
+    if(!emailContainAt){
+        printf("Invalid email!\n");
+        return -1;
+    }
+    // Repetition detection.
+    for(int i=0;i<countContacts;++i){
+        if(i!=index&&strcmp(contacts[i].email,contactInput.email)==0){
+            printf("Same email exists thus not modified!\n");
+            return -1;
+        }
+    }
+    
 
     printf("Modify the address? \"1\"/other for yes/no: ");
     std::cin.getline(input,23);
@@ -252,9 +360,8 @@ int load(){
     printf("\033[47;30mLoad contacts from \".ctx\" file.\033[0m\n");
     printf("Loading from file will lose your current contacts in the memory!\nProceed? '1'/other for yes/no: ");
     char input[24]={0};
-    int select=0;
     std::cin.getline(input,23);
-    if(!select){
+    if(strlen(input)!=1||input[0]!='1'){
         printf("Loading cancelled.\n");
         return 1;
     }
@@ -344,18 +451,18 @@ int main(){
     int select=0;
     while(true){
         printf("\033[47;30mContacts 1.0.3 (2022/May/18) - A Lightweight Contacts Manager!\033[0m\n");
-        printf("\"0\"  List the contacts.\n\"1\"  Add a contact to the contacts.\n\"2\"  Search in the contacts by name or phone number.\n\"3\"  Remove a contact from the contacts by index.\n\"4\"  Modify a contact in the contacts by index.\n\"5\"  Load contacts from \".ctx\" file.\n\"6\"  Save contacts to \".ctx\" file or exit.\nPlease select an option by entering its index: ");
+        printf("\"0\"  List the contacts.\n\"1\"  Search in the contacts by name or phone number.\n\"2\"  Add a contact to the contacts.\n\"3\"  Remove a contact from the contacts by index.\n\"4\"  Modify a contact in the contacts by index.\n\"5\"  Load contacts from \".ctx\" file.\n\"6\"  Save contacts to \".ctx\" file or exit.\nPlease select an option by entering its index: ");
         std::cin.getline(input,511);
         select=atoi(input);
         switch(select){
             case 0: // list
                 list();
                 break;
-            case 1: // add
-                add();
-                break;
-            case 2: // search
+            case 1: // search
                 search();
+                break;
+            case 2: // add
+                add();
                 break;
             case 3: // remove
                 remove();
