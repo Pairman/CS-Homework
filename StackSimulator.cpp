@@ -65,6 +65,10 @@ int initialize(){
 
 // Append a node with given data to the link.
 int append(int DATA){
+    // Size overflow protection.
+    if(size+1==0){
+        printf("  Fatal error! Stack is full!\n");
+    }
     // If the link doesn't work.
     if(validate()){
         return -1;
@@ -83,6 +87,7 @@ int append(int DATA){
 
     // Increase the link's size;
     ++size;
+
     return 0;
 }
 
@@ -90,6 +95,10 @@ int append(int DATA){
 
 // Pop the last node and return its data.
 int pop(){
+    // Size overflow protection.
+    if(size-1==0){
+        printf("  Fatal error! Stack is empty!\n");
+    }
     // If the link doesn't work.
     if(validate()){
         return -1;
@@ -106,9 +115,6 @@ int pop(){
 
     // Decrease the link's size.
     --size;
-    if(size<0){
-        size=0;
-    }
 
     //Return the popped value.
     return data;
@@ -168,7 +174,7 @@ int main(int argc,char *argv[]){
 
     // Define cli messages.
     char credit[66]="SimStack 1.0.1 (2022/May/12) - The Stack Simulator! [Input Mode]\n";
-    char help[249]="Usage:  help              show help\n          push [number...]  push given number(s) to the stack\n          pop  [time]       pop from the stack for given times\n          list              list the stack\n          exit              exit input mode\n";
+    char help[243]="Usage:  help        show help\n          push [number...]  push given number(s) to the stack\n          pop  [time]       pop from the stack for given times\n          list              list the stack\n          exit              exit input mode\n";
     char in[12]="simstack> ";
 
     // Initialize the link.
