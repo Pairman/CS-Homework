@@ -450,7 +450,7 @@ int main(){
     char input[512]={0};
     int select=0;
     while(true){
-        printf("\033[47;30mContacts 1.0.3 (2022/May/18) - A Lightweight Contacts Manager!\033[0m\n");
+        printf("\033[47;30mContacts 1.1.0 (2022/Jun/8) - A Lightweight Contacts Manager!\033[0m\n");
         printf("\"0\"  List the contacts.\n\"1\"  Search in the contacts by name or phone number.\n\"2\"  Add a contact to the contacts.\n\"3\"  Remove a contact from the contacts by index.\n\"4\"  Modify a contact in the contacts by index.\n\"5\"  Load contacts from \".ctx\" file.\n\"6\"  Save contacts to \".ctx\" file or exit.\nPlease select an option by entering its index: ");
         std::cin.getline(input,511);
         select=atoi(input);
