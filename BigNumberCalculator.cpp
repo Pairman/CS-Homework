@@ -256,6 +256,7 @@ int main(int argc,char *argv[]){
 
     // Print the result.
     printn(ret);
+    printf("\n");
 
     // Free the memory and exit the program.
     free(numA);
