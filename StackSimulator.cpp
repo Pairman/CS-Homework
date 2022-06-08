@@ -162,7 +162,7 @@ int release(){
 int main(int argc,char *argv[]){
     // Check the command.
     if(argc==1||strcmp(argv[1],"-h")==0){
-        printf("SimStack 1.0.1 (2022/May/12) - The Stack Simulator!\nUsage: simstack -h       show help\n       simstack -i       enter input mode\n");
+        printf("SimStack 1.0.2 (2022/Jun/8) - The Stack Simulator!\nUsage: simstack -h       show help\n       simstack -i       enter input mode\n");
         release();
         return 0;
     }
@@ -173,7 +173,7 @@ int main(int argc,char *argv[]){
     }
 
     // Define cli messages.
-    char credit[66]="SimStack 1.0.1 (2022/May/12) - The Stack Simulator! [Input Mode]\n";
+    char credit[66]="SimStack 1.0.2 (2022/Jun/8) - The Stack Simulator! [Input Mode]\n";
     char help[243]="Usage:  help        show help\n          push [number...]  push given number(s) to the stack\n          pop  [time]       pop from the stack for given times\n          list              list the stack\n          exit              exit input mode\n";
     char in[12]="simstack> ";
 
