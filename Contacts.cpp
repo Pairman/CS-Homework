@@ -11,6 +11,33 @@ struct Contact{
 unsigned char countContacts=0;
 Contact contacts[256];
 
+
+
+// Match the keyword in the second string
+int strmatch(char keyword[],char str[]){
+    // Allocate memory for later use
+    char *clip=(char*)calloc(strlen(keyword),sizeof(char));
+
+    // Match the characters
+    for(int i=0;i<=strlen(str)-strlen(keyword);++i){
+        // Clip the str into clip
+        for(int j=0;j<strlen(keyword);++j){
+            clip[j]=str[i+j];
+        }
+        // Compare the keyword and the clipped
+        if(!strcmp(keyword,clip)){
+            free(clip);
+            return 1;
+        }
+    }
+
+    // Return 0 if no occurences
+    free(clip);
+    return 0;
+}
+
+
+
 // Show one contact by given index;
 int show(unsigned char index){
     // Contact validation.
@@ -125,51 +152,25 @@ int add(){
     return 0;
 }
 
+
+
 // Search in the contacts by name or phone number.
 int search(){
     printf("\033[47;30mSearch in the contacts by name or phone number.\033[0m\n");
 
-    // Input and check the name and phone number, and then search.
+    // Input the search keyword.
     char input[24]={0},search[24]={0};
     int select=0;
     int countResults=0,equalResults[255]={0};
-    printf("Please input \"0\"/\"1\"/\"2\" to search by name/phone/email: ");
-    std::cin.getline(input,23);
-    select=atoi(input);
-    switch(select){
-        case 0:
-            printf("(No more than 23 characters) Please input the name: ");
-            std::cin.getline(search,23);
-            for(int index=0;index<countContacts;++index){
-                if(strcmp(contacts[index].name,search)==0){
-                    equalResults[index]=1;
-                    ++countResults;
-                }
-            }
-            break;
-        case 1:
-            printf("(No more than 23 characters) Please input the phone: ");
-            std::cin.getline(search,23);
-            for(int index=0;index<countContacts;++index){
-                if(strcmp(contacts[index].phone,search)==0){
-                    equalResults[index]=1;
-                    ++countResults;
-                }
-            }
-            break;
-        case 2:
-            printf("(No more than 23 characters) Please input the phone: ");
-            std::cin.getline(search,23);
-            for(int index=0;index<countContacts;++index){
-                if(strcmp(contacts[index].email,search)==0){
-                    equalResults[index]=1;
-                    ++countResults;
-                }
-            }
-            break;
-        default:
-            printf("Invalid option!\n");
-            return -1;
+    printf("Please input the search keyword: ");
+    std::cin.getline(search,23);
+
+    // Search
+    for(int i=0;i<countContacts;++i){
+        if(strmatch(search,contacts[i].name)||strmatch(search,contacts[i].phone)||strmatch(search,contacts[i].email)||strmatch(search,contacts[i].address)||strmatch(search,contacts[i].work)){
+            equalResults[i]=1;
+            ++countResults;
+        }
     }
 
     // Show the results.
@@ -355,6 +356,7 @@ int modify(){
 }
 
 
+
 // Load contacts from \".ctx\" file.
 int load(){
     printf("\033[47;30mLoad contacts from \".ctx\" file.\033[0m\n");
@@ -398,9 +400,9 @@ int load(){
 
 
 
-// Save contacts to \".ctx\" file or exit.
+// Save contacts to \".ctx\" file and exit.
 int save(){
-    printf("\033[47;30mSave contacts to \".ctx\" file or exit.\033[0m\n");
+    printf("\033[47;30mSave contacts to \".ctx\" file and exit.\033[0m\n");
 
     // Whether to save the file.
     char input[23]={0};
@@ -450,8 +452,8 @@ int main(){
     char input[512]={0};
     int select=0;
     while(true){
-        printf("\033[47;30mContacts 1.1.0 (2022/Jun/8) - A Lightweight Contacts Manager!\033[0m\n");
-        printf("\"0\"  List the contacts.\n\"1\"  Search in the contacts by name or phone number.\n\"2\"  Add a contact to the contacts.\n\"3\"  Remove a contact from the contacts by index.\n\"4\"  Modify a contact in the contacts by index.\n\"5\"  Load contacts from \".ctx\" file.\n\"6\"  Save contacts to \".ctx\" file or exit.\nPlease select an option by entering its index: ");
+        printf("\033[47;30mContacts 1.2.0 (2022/Jun/9) - A Lightweight Contacts Manager!\033[0m\n");
+        printf("\"0\"  List the contacts.\n\"1\"  Search in the contacts by name or phone number.\n\"2\"  Add a contact to the contacts.\n\"3\"  Remove a contact from the contacts by index.\n\"4\"  Modify a contact in the contacts by index.\n\"5\"  Load contacts from \".ctx\" file.\n\"6\"  Save contacts to \".ctx\" file and exit.\nPlease select an option by entering its index: ");
         std::cin.getline(input,511);
         select=atoi(input);
         switch(select){
