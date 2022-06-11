@@ -98,11 +98,11 @@ int pop(){
     // Size overflow protection.
     if(size-1==0){
         printf("  Fatal error! Stack is empty!\n");
-        return -1;
+        return 0;
     }
     // If the link doesn't work.
     if(validate()){
-        return -1;
+        return 0;
     }
 
     // Locate the node to pop.
