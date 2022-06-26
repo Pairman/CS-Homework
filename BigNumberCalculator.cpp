@@ -2,6 +2,8 @@
 #include<string.h>
 #include<stdlib.h>
 
+
+
 // Check if an operator is legal.
 int CheckOp(char op){
     if(op!='+'&&op!='-'){
@@ -10,6 +12,8 @@ int CheckOp(char op){
 
     return 0;
 }
+
+
 
 // Check if a number is legal.
 int CheckNum(char *str){
@@ -36,6 +40,8 @@ int CheckNum(char *str){
     return 0;
 }
 
+
+
 // Convert a number from char array to int array;
 int *StrToInt(char *str){
     // Create an int array to store the number.
@@ -61,16 +67,25 @@ int *StrToInt(char *str){
     int nonzero=0;
     for(int i=512-len;i<512;++i){
         if(num[i]){
-            nonzero=1;
+            ++nonzero;
         }
     }
-    if(nonzero==0){
+    if(!nonzero){
         num[0]=1;
+    }
+
+    // Fix the length.
+    while(num[512-num[1]]==0){
+        --num[1];
+    }
+    if(!num[1]){
         num[1]=1;
     }
 
     return num;
 }
+
+
 
 // Compare two numbers' absolute value and return the index of the difference.
 int CompareAbs(int *numA,int *numB){
@@ -97,6 +112,8 @@ int CompareAbs(int *numA,int *numB){
     return 0;
 }
 
+
+
 // Add two numbers together.
 int *add(int *numA,int *numB){
     // Create an array for the result and determine its sign.
@@ -118,6 +135,13 @@ int *add(int *numA,int *numB){
     if(ret[512-ret[1]]==0){
         --ret[1];
         }
+    // Fix the length.
+    while(ret[512-ret[1]]==0){
+        --ret[1];
+    }
+    if(!ret[1]){
+        ret[1]=1;
+    }
 
     return ret;
 }
@@ -126,7 +150,7 @@ int *add(int *numA,int *numB){
 int *sub(int *numa,int *numb){
     // Create an array for the result and determine its sign.
     int *ret=(int*)calloc(512,sizeof(int));
-    
+
     // Compare the numbers and determine the sign. Return if the two equal, or swap if needed.
     int cmp=CompareAbs(numa,numb),*numA=nullptr,*numB=nullptr;
     if(cmp==0){
@@ -170,6 +194,9 @@ int *sub(int *numa,int *numb){
     while(ret[512-ret[1]]==0){
         --ret[1];
     }
+    if(!ret[1]){
+        ret[1]=1;
+    }
 
     return ret;
 }
@@ -194,7 +221,7 @@ int main(int argc,char *argv[]){
 
     // Check the command.
     if(argc==1||strcmp(argv[1],"-h")==0){
-        printf("BigCal 1.0.2 (2022/Jun/8) - Addition or substraction calculator for big numbers!\nUsage: bigcal -h                               show help\n       bigcal -c [number] [operator] [number]  add or substract two numbers for the given operator\n");
+        printf("BigCal 1.0.3 (2022/Jun/26) - Addition or substraction calculator for big numbers!\nUsage: bigcal -h                               show help\n       bigcal -c [number] [operator] [number]  add or substract two numbers for the given operator\n");
         return 0;
     }
     if(argc>5){
