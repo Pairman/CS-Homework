@@ -66,8 +66,9 @@ int initialize(){
 // Append a node with given data to the link.
 int append(int DATA){
     // Size overflow protection.
-    if(size+1==0){
+    if(size+1<=size){
         printf("  Fatal error! Stack is full!\n");
+        return -1;
     }
     // If the link doesn't work.
     if(validate()){
@@ -96,7 +97,7 @@ int append(int DATA){
 // Pop the last node and return its data.
 int pop(){
     // Size overflow protection.
-    if(size-1==0){
+    if(size<=0){
         printf("  Fatal error! Stack is empty!\n");
         return 0;
     }
@@ -163,18 +164,18 @@ int release(){
 int main(int argc,char *argv[]){
     // Check the command.
     if(argc==1||strcmp(argv[1],"-h")==0){
-        printf("SimStack 1.0.4 (2022/Jun/11) - The Stack Simulator!\nUsage: simstack -h       show help\n       simstack -i       enter input mode\n");
+        printf("SimStack 1.0.5 (2022/Jun/26) - The Stack Simulator!\nUsage: simstack -h       show help\n       simstack -i       enter input mode\n");
         release();
         return 0;
     }
-    else if(argc!=1||strcmp(argv[1],"-i")){
+    else if(argc!=1&&strcmp(argv[1],"-i")){
         printf("Unknown command! Please check \"simstack -h\" for usage!\n");
         release();
         return -1;
     }
 
     // Define cli messages.
-    char credit[66]="SimStack 1.0.4 (2022/Jun/11) - The Stack Simulator! [Input Mode]\n";
+    char credit[66]="SimStack 1.0.5 (2022/Jun/26) - The Stack Simulator! [Input Mode]\n";
     char help[243]="Usage:  help        show help\n          push [number...]  push given number(s) to the stack\n          pop  [time]       pop from the stack for given times\n          list              list the stack\n          exit              exit input mode\n";
     char in[12]="simstack> ";
 
@@ -224,6 +225,9 @@ int main(int argc,char *argv[]){
             }
             if(times>size){
                 times=size;
+            }
+            if(!times){
+                printf("  Fatal error! Stack is empty!\n");
             }
 
             // Pop for given times.
