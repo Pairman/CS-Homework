@@ -71,7 +71,7 @@ struct BitmapPixelData{
 int main(int argc, char *argv[]){
     // Check the command.
     if(argc==1||strcmp(argv[1],"-h")==0){
-        printf("BitmapZoomer 1.0.0 (2022/May/14) - Zoomer for 24-bit bitmaps!\nUsage: bmzoomer -h                                    show help\n       bmzoomer -z [file] [percent] [file] (--debug)  zoom the first image by given percent(s) and save to the second.\n                                                      \"--debug\" enables debugging mode\n");
+        printf("BitmapZoomer 1.0.1 (2022/Jun/22) - Zoomer for 24-bit bitmaps!\nUsage: bmzoomer -h                                    show help\n       bmzoomer -z [file] [percent] [file] (--debug)  zoom the first image by given percent(s) and save to the second.\n                                                      \"--debug\" enables debugging mode\n");
         return 0;
     }
     if(strcmp(argv[1],"-z")){
@@ -230,7 +230,7 @@ int main(int argc, char *argv[]){
     BitmapImageHeader bmImageHeaderNew=bmImageHeader;
     // double pzoom=(double)zoom/(double)100;
     bmImageHeaderNew.biWidth=((unsigned int)((double)zoom/(double)100*bmImageHeader.biWidth)+3)/4*4;
-    bmImageHeaderNew.biHeight=((unsigned int)((double)zoom/(double)100*bmImageHeader.biHeight)+3)/4*4;;
+    bmImageHeaderNew.biHeight=((unsigned int)((double)zoom/(double)100*bmImageHeader.biHeight)+3)/4*4;
     bmFileHeaderNew.bfSize=bmFileHeaderNew.bfOffBits+3*bmImageHeaderNew.biWidth*bmImageHeaderNew.biHeight;
     RGBTriple *bmPixelDataNew=(RGBTriple*)calloc(bmImageHeaderNew.biWidth*bmImageHeaderNew.biHeight,sizeof(RGBTriple));
     if(DEBUGGING){
